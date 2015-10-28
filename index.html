@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="http://maps.googleapis.com/maps/api/js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
+</script>
+<script>
+
+var player = function() {
+  this.location = {
+    lat: 0,
+    lng: 0
+  }
+}
+
+player.prototype.getAndsetLocation = function() {
+  $.ajax({
+    url: "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDY0Xm8D0GKhoQIiZk9gXqtSDmjgyMa2JI",
+    crossDomain: true,
+    method: 'POST',
+    success: function(response) {
+      this.location.lat = response.location.lat;
+      this.location.lng = response.location.lng;
+    }.bind(this)
+  })
+}
+
+window.user = new player();
+
+function updateLocation() {
+  user.getAndsetLocation();
+  $('body').html(user.location.lat + ' ' + user.location.lng)
+}
+
+setInterval(updateLocation, 500)
+
+
+
+
+// function initialize() {
+//   var mapProp = {
+//     center:new google.maps.LatLng(51.508742,-0.120850),
+//     zoom: 17,
+//     mapTypeId:google.maps.MapTypeId.ROADMAP,
+//     stylers: [
+//       { visibility: 'off' }
+//     ]
+//   };
+//
+//
+//
+//   window.map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+//
+// }
+//
+// function error(e) {
+//   alert(e.message)
+// }
+//
+// function setMyCenter() {
+//   navigator.geolocation.getCurrentPosition(function (position) {
+//     var newLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+//     window.map.setCenter(newLocation)
+//   }.bind(this), error);
+//
+//   return 'hi'
+// }
+// google.maps.event.addDomListener(window, 'load', initialize);
+// setInterval(setMyCenter, 1000)
+</script>
+</head>
+
+<body>
+<div id="googleMap" style="width:800px;height:500px;"></div>
+</body>
+
+</html>
