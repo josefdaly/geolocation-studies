@@ -30,7 +30,7 @@ function initializeMap() {
   var mapProp = {
     center:new google.maps.LatLng(51.508742,-0.120850),
     zoom: 17,
-    mapTypeId:google.maps.MapTypeId.ROADMAP,
+    mapTypeId:google.maps.MapTypeId.TERRAIN,
     stylers: [
       { visibility: 'off' }
     ]
@@ -38,7 +38,8 @@ function initializeMap() {
   window.map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
   window.userMarker = new google.maps.Marker({
     position: window.user.location,
-    map: window.map
+    map: window.map,
+    icon: "http://icons.iconarchive.com/icons/icons8/windows-8/16/Sports-Running-icon.png"
   })
 }
 
@@ -52,17 +53,6 @@ user.startPositionWatcher();
 google.maps.event.addDomListener(window, 'load', initializeMap);
 setInterval(setMyCenter,500);
 
-
-
-
-
-
-
-
-
-
-
-setInterval(setMyCenter, 1000)
 </script>
 </head>
 
