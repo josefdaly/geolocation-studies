@@ -26,47 +26,38 @@ player.prototype.startPositionWatcher = function() {
   );
 }
 
-function updateLocation() {
-  $('body').html('Location: ' + user.location.lat + ' ' + user.location.lng);
+function initializeMap() {
+  var mapProp = {
+    center:new google.maps.LatLng(51.508742,-0.120850),
+    zoom: 17,
+    mapTypeId:google.maps.MapTypeId.ROADMAP,
+    stylers: [
+      { visibility: 'off' }
+    ]
+  };
+  window.map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+}
+
+function setMyCenter() {
+  window.map.setCenter(user.location)
 }
 
 window.user = new player();
 user.startPositionWatcher();
-setInterval(updateLocation, 500)
+google.maps.event.addDomListener(window, 'load', initializeMap);
+setInterval(setMyCenter,500);
 
 
 
 
-// function initialize() {
-//   var mapProp = {
-//     center:new google.maps.LatLng(51.508742,-0.120850),
-//     zoom: 17,
-//     mapTypeId:google.maps.MapTypeId.ROADMAP,
-//     stylers: [
-//       { visibility: 'off' }
-//     ]
-//   };
-//
-//
-//
-//   window.map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
-//
-// }
-//
-// function error(e) {
-//   alert(e.message)
-// }
-//
-// function setMyCenter() {
-//   navigator.geolocation.getCurrentPosition(function (position) {
-//     var newLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-//     window.map.setCenter(newLocation)
-//   }.bind(this), error);
-//
-//   return 'hi'
-// }
-// google.maps.event.addDomListener(window, 'load', initialize);
-// setInterval(setMyCenter, 1000)
+
+
+
+
+
+
+
+setInterval(setMyCenter, 1000)
 </script>
 </head>
 
