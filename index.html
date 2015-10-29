@@ -14,27 +14,24 @@ var player = function() {
   this.accuracyRadius = 0;
 }
 
-player.prototype.getAndsetLocation = function() {
-  $.ajax({
-    url: "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDY0Xm8D0GKhoQIiZk9gXqtSDmjgyMa2JI",
-    crossDomain: true,
-    method: 'POST',
-    success: function(response) {
-      this.location.lat = response.location.lat;
-      this.location.lng = response.location.lng;
-      this.accuracyRadius = response.accuracy;
-    }.bind(this)
-  })
+player.prototype.startPositionWatcher = function() {
+  navigator.geolocation.watchPosition(
+    function(position) {
+      this.location.lat = position.coords.latitude;
+      this.location.lng = position.coords.longitude;
+    }.bind(this),
+    function(error) {
+      alert(error.message);
+    }
+  );
+}
+
+function updateLocation() {
+  $('body').html('Location: ' + user.location.lat + ' ' + user.location.lng);
 }
 
 window.user = new player();
-
-function updateLocation() {
-  user.getAndsetLocation();
-  $('body').html('Location: ' + user.location.lat + ' ' + user.location.lng);
-  $('body').append('<br> Accuracy Radius: ' + user.accuracyRadius);
-}
-
+user.startPositionWatcher();
 setInterval(updateLocation, 500)
 
 
