@@ -36,10 +36,15 @@ function initializeMap() {
     ]
   };
   window.map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+  window.userMarker = new google.maps.Marker({
+    position: window.user.location,
+    map: window.map
+  })
 }
 
 function setMyCenter() {
   window.map.setCenter(user.location)
+  window.userMarker.setPosition(user.location)
 }
 
 window.user = new player();
@@ -62,7 +67,7 @@ setInterval(setMyCenter, 1000)
 </head>
 
 <body>
-<div id="googleMap" style="width:800px;height:500px;"></div>
+<div id="googleMap" style="width:360px;height:500px;"></div>
 </body>
 
 </html>
