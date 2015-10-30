@@ -5,60 +5,41 @@
   <script src="http://maps.googleapis.com/maps/api/js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
   </script>
-<script>
+  <script src="js/player.js"></script>
+  <script>
 
-var player = function() {
-  this.location = {
-    lat: 0,
-    lng: 0
-  }
-  this.accuracyRadius = 0;
-}
-
-player.prototype.startPositionWatcher = function() {
-  navigator.geolocation.watchPosition(
-    function(position) {
-      this.location.lat = position.coords.latitude;
-      this.location.lng = position.coords.longitude;
-    }.bind(this),
-    function(error) {
-      alert(error.message);
+    function initializeMap() {
+      var mapProp = {
+        center:new google.maps.LatLng(51.508742,-0.120850),
+        zoom: 17,
+        mapTypeId:google.maps.MapTypeId.TERRAIN,
+        stylers: [
+          { visibility: 'off' }
+        ]
+      };
+      window.map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+      window.userMarker = new google.maps.Marker({
+        position: window.user.location,
+        map: window.map,
+        icon: "http://icons.iconarchive.com/icons/icons8/windows-8/16/Sports-Running-icon.png"
+      })
     }
-  );
-}
 
-function initializeMap() {
-  var mapProp = {
-    center:new google.maps.LatLng(51.508742,-0.120850),
-    zoom: 17,
-    mapTypeId:google.maps.MapTypeId.TERRAIN,
-    stylers: [
-      { visibility: 'off' }
-    ]
-  };
-  window.map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
-  window.userMarker = new google.maps.Marker({
-    position: window.user.location,
-    map: window.map,
-    icon: "http://icons.iconarchive.com/icons/icons8/windows-8/16/Sports-Running-icon.png"
-  })
-}
+    function setMyCenter() {
+      window.map.setCenter(user.location)
+      window.userMarker.setPosition(user.location)
+    }
 
-function setMyCenter() {
-  window.map.setCenter(user.location)
-  window.userMarker.setPosition(user.location)
-}
+    window.user = new player();
+    user.startPositionWatcher();
+    google.maps.event.addDomListener(window, 'load', initializeMap);
+    setInterval(setMyCenter, 100);
 
-window.user = new player();
-user.startPositionWatcher();
-google.maps.event.addDomListener(window, 'load', initializeMap);
-setInterval(setMyCenter, 100);
-
-</script>
+  </script>
 </head>
 
 <body>
-<div id="googleMap"></div>
+  <div id="googleMap"></div>
 </body>
 
 </html>
